@@ -24,7 +24,13 @@
   },
   "homepage": "https://github.com/tomvee88/Mean-stack-with-angular#readme",
   "dependencies": {
+    "bcrypt": "^1.0.3",
+    "body-parser": "^1.18.2",
+    "cors": "^2.8.4",
     "express": "^4.16.2",
     "mongoose": "^5.0.7"
+  },
+  "devDependencies": {
+    "@angular/cli": "^1.7.1"
   }
 }

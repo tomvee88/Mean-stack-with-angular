@@ -3,6 +3,11 @@ const app = express();
 const mongoose = require('mongoose');
 const config = require('./config/database');
 const path = require('path');
+const bodyParser = require('body-parser');
+const cors = require('cors');
+
+// local
+const authenication = require('./routes/authenication');
 
 // connect to mongodb
 mongoose.Promise = global.Promise;
@@ -14,12 +19,28 @@ mongoose.connect(config.keys.URI, (err) => {
     }
 });
 
-// provide access to dist directory
+// ************************************************************ 
+// cross origin
+app.use(cors({
+    origin: 'http://localhost:4200'
+}));
+
+// parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: false }));
+
+// parse application/json
+app.use(bodyParser.json());
+
+// provide static directory for frontend
 app.use(express.static(__dirname + '/client/dist/'));
 
-app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname + '/client/dist/index.html'));
-});
+// connect server to Angular Index.html
+// app.get('*', (req, res) => {
+//     res.sendFile(path.join(__dirname + '/client/dist/index.html'));
+// });
+
+app.use('/auth', authenication);
+// ************************************************************ 
 
 const port = process.env.PORT || 3000;
 
